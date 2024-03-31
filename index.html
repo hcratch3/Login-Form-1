@@ -39,13 +39,6 @@
             var expiration = new Date(now.getTime() + 5 * 60 * 1000); // 5分後の時間
             document.cookie = "lastAccess=" + now.getTime() + "; expires=" + expiration.toUTCString() + "; path=/";
         }
-
-        
-
-        // ページが読み込まれた時にクッキーを設定し、5分後にログアウトする
-        window.onload = function() {
-            
-        };
     </script>
 </body>
 </html>
