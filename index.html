@@ -22,7 +22,7 @@
             // ここでユーザー名とパスワードをサーバーに送信して認証する処理を実行する
             // 以下はサンプルの非同期処理
             setCookie();
-            setTimeout(function() {
+            /*setTimeout(function() {
                 var lastAccess = getCookie("lastAccess");
                 if (lastAccess !== null) {
                     var now = new Date().getTime();
@@ -32,7 +32,7 @@
                         window.location.href = "login.html"; // ログイン画面にリダイレクト
                     }
                 }
-            }, 5 * 60 * 1000);}
+            }, 5 * 60 * 1000);}*/
                     // クッキーに現在の時間を保存する関数
         function setCookie() {
             var now = new Date();
