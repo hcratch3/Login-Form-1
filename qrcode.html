@@ -18,7 +18,17 @@
 
         // ユーザー名を使用してQRコードを生成
         generateQRCode(username);
-
+        setTimeout(function() {
+                var lastAccess = getCookie("lastAccess");
+                if (lastAccess !== null) {
+                    var now = new Date().getTime();
+                    var elapsedTime = now - parseInt(lastAccess);
+                    if (elapsedTime > 5 * 60 * 1000) { // 5分経過したらログアウト
+                        alert("セッションがタイムアウトしました。ログイン画面に戻ります。");
+                        window.location.href = "login.html"; // ログイン画面にリダイレクト
+                    }
+                }
+            }, 5 * 60 * 1000);}
         // QRコードを生成する関数
         function generateQRCode(text) {
             var qr = new QRious({
