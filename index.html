@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ログイン</title>
+</head>
+<body>
+    <h1>ログイン</h1>
+    <form id="loginForm" action="qrcode.html">
+        <label for="username">ユーザー名:</label>
+        <input type="text" id="username" name="username"><br><br>
+        <label for="password">パスワード:</label>
+        <input type="password" id="password" name="password"><br><br>
+        <button type="button" onclick="login()">ログイン</button>
+    </form>
+
+    <script>
+        // ログイン関数
+        function login() {
+            var username = document.getElementById('username').value;
+            var password = document.getElementById('password').value;
+
+            // ここでユーザー名とパスワードをサーバーに送信して認証する処理を実行する
+            // 以下はサンプルの非同期処理
+            setCookie();
+            setTimeout(function() {
+                var lastAccess = getCookie("lastAccess");
+                if (lastAccess !== null) {
+                    var now = new Date().getTime();
+                    var elapsedTime = now - parseInt(lastAccess);
+                    if (elapsedTime > 5 * 60 * 1000) { // 5分経過したらログアウト
+                        alert("セッションがタイムアウトしました。ログイン画面に戻ります。");
+                        window.location.href = "login.html"; // ログイン画面にリダイレクト
+                    }
+                }
+            }, 5 * 60 * 1000);}
+                    // クッキーに現在の時間を保存する関数
+        function setCookie() {
+            var now = new Date();
+            var expiration = new Date(now.getTime() + 5 * 60 * 1000); // 5分後の時間
+            document.cookie = "lastAccess=" + now.getTime() + "; expires=" + expiration.toUTCString() + "; path=/";
+        }
+
+        // クッキーの値を取得する関数
+        function getCookie(name) {
+            var cookies = document.cookie.split(';');
+            for(var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i].trim();
+                if (cookie.indexOf(name) === 0) {
+                    return cookie.substring(name.length + 1);
+                }
+            }
+            return null;
+        }
+
+        // ページが読み込まれた時にクッキーを設定し、5分後にログアウトする
+        window.onload = function() {
+            
+        };
+    </script>
+</body>
+</html>
