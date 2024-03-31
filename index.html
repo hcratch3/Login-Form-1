@@ -16,8 +16,8 @@
     <script>
         // ログイン関数
         function login() {
-            var username = document.getElementById('username').value;
-            var password = document.getElementById('password').value;
+            //var username = document.getElementById('username').value;
+            //var password = document.getElementById('password').value;
 
             // ここでユーザー名とパスワードをサーバーに送信して認証する処理を実行する
             // 以下はサンプルの非同期処理
@@ -40,17 +40,7 @@
             document.cookie = "lastAccess=" + now.getTime() + "; expires=" + expiration.toUTCString() + "; path=/";
         }
 
-        // クッキーの値を取得する関数
-        function getCookie(name) {
-            var cookies = document.cookie.split(';');
-            for(var i = 0; i < cookies.length; i++) {
-                var cookie = cookies[i].trim();
-                if (cookie.indexOf(name) === 0) {
-                    return cookie.substring(name.length + 1);
-                }
-            }
-            return null;
-        }
+        
 
         // ページが読み込まれた時にクッキーを設定し、5分後にログアウトする
         window.onload = function() {
