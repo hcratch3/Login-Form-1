@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QRコード表示</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+</head>
+<body>
+    <h1>QRコード</h1>
+    <div id="qrcode"></div>
+
+    <script>
+        // URLパラメーターからユーザー名を取得
+        var urlParams = new URLSearchParams(window.location.search);
+        var username = urlParams.get('username');
+
+        // ユーザー名を使用してQRコードを生成
+        generateQRCode(username);
+
+        // QRコードを生成する関数
+        function generateQRCode(text) {
+            var qr = new QRious({
+                element: document.getElementById('qrcode'),
+                size: 200,
+                value: text
+            });
+        }
+    </script>
+</body>
+</html>
