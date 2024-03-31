@@ -9,6 +9,9 @@
     <div id="qrcode"></div>
 
     <script>
+    // ページが読み込まれた時にクッキーを設定し、5分後にログアウトする
+    window.onload = function() {
+            
         // URLパラメーターからユーザー名を取得
         var urlParams = new URLSearchParams(window.location.search);
         var username = urlParams.get('username');
@@ -35,6 +38,7 @@
             }
             return null;
         }
+    };
     </script>
 </body>
 </html>
