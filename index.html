@@ -34,10 +34,12 @@
                 }
             }, 5 * 60 * 1000);}*/
                     // クッキーに現在の時間を保存する関数
-        function setCookie() {
-            var now = new Date();
-            var expiration = new Date(now.getTime() + 5 * 60 * 1000); // 5分後の時間
-            document.cookie = "lastAccess=" + now.getTime() + "; expires=" + expiration.toUTCString() + "; path=/";
+            function setCookie() {
+                var username = document.getElementById('username').value;
+                var now = new Date();
+                var expiration = new Date(now.getTime() + 5 * 60 * 1000); // 5分後の時間
+                document.cookie = "NAME=username; expires=expiration; secure";
+            }
         }
     </script>
 </body>
