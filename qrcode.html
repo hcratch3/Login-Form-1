@@ -2,7 +2,8 @@
 <html>
 <head>
     <title>QRコード表示</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" integrity="sha512-CNgIRecGo7nphbeZ04Sc13ka07paqdeTu0WR1IM4kNcpmBAUSHSQX0FslNhTDadL4O5SAGapGt4FodqL8My0mA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>  
+
 </head>
 <body>
     <h1>QRコード</h1>
@@ -30,13 +31,12 @@
                 }
             }, 5 * 60 * 1000);
         // QRコードを生成する関数
-        function generateQRCode(text) {
-            var qr = new QRious({
-                element: document.getElementById('qrcode'),
-                size: 200,
-                value: text
-            });
-        }
+        var qrcode = new QRCode('QR', {
+          text:  username.value,
+          width: 128,
+          height: 128,
+          correctLevel : QRCode.CorrectLevel.H
+        });  
         // クッキーの値を取得する関数
         function getCookie(name) {
             var cookies = document.cookie.split(';');
