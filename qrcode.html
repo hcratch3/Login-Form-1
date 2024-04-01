@@ -30,13 +30,15 @@
                     }
                 }
             }, 5 * 60 * 1000);
-        // QRコードを生成する関数
-        var qrcode = new QRCode('QR', {
-          text:  username.value,
-          width: 128,
-          height: 128,
-          correctLevel : QRCode.CorrectLevel.H
-        });  
+        function generateQRCode(text) {
+            // QRコードを生成する関数
+            var qrcode = new QRCode('QR', {
+              text:  text.value,
+              width: 128,
+              height: 128,
+              correctLevel : QRCode.CorrectLevel.H
+            });  
+        }
         // クッキーの値を取得する関数
         function getCookie(name) {
             var cookies = document.cookie.split(';');
