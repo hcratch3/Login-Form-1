@@ -27,7 +27,6 @@
                                 <p style="padding-left: 5px;">QRCode Reader</p></a> <span data-target="navbarMenu" class="navbar-burger burger">
                                     <span></span>
                                     <span></span> 
-                                    <input type="text" id="classname" name="classname">
                                     <span></span>
                                 </span></div> 
                         <div id="navbarMenu" class="navbar-menu">
@@ -141,7 +140,6 @@
     <script src="./qrreader/vue.js"></script>
     <script src="./qrreader/sha256.min.js"></script>
     <script>
-      var class = document.getElementById('classname');
     //localStorage.removeItem("EMPLOYEE_DATA");
     let vueApp = new Vue({
         el: '#app',
@@ -317,8 +315,8 @@
 
             ResetSetting: function () {
                 if (confirm(
-                        "データを初期化しますけどよろしいでっか?" + "\r\n\r\n" +
-                        "もしあれやったらEXPORTできますさかいにご利用なさってください。")) {
+                    "データを初期化しますけどよろしいでっか?" + "\r\n\r\n" +
+                    "もしあれやったらEXPORTできますさかいにご利用なさってください。")) {
                     localStorage.removeItem(this.saveLSkey);
                     location.reload();
                 }
@@ -330,12 +328,22 @@
             this.canvas = document.querySelector("#picture");
             this.ctx = this.canvas.getContext("2d");
 
-            axios.get('http://example.com/"+class.value+".json') // サーバーのエンドポイントを適切に変更してください
+            // URLからクエリパラメータを取得してクラス名を抽出
+            const urlParams = new URLSearchParams(window.location.search);
+            const className = urlParams.get('class');
+
+            if (!className) {
+                console.error('Class name not provided in the URL.');
+                return;
+            }
+
+            // サーバーからクラス名.jsonを取得
+            axios.get(`http://example.com/class/${className}.json`)
                 .then(response => {
                     this.employeeData = response.data;
                 })
                 .catch(error => {
-                    console.error('Error fetching data:', error);
+                    console.error('Error fetching class roster:', error);
                 });
 
             this.cameraRun();
@@ -353,16 +361,15 @@
                     this.video.pause();
                 }
             },
-
         },
 
         beforeDestroy: function () {
             // インスタンスを破棄する前に、イベントリスナから削除
             window.removeEventListener('resize', this.setTopMargin, false);
         }
-
     })
 </script>
+
 
     <style type="text/css">
         html,
