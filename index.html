@@ -6,16 +6,16 @@
 <body>
     <h1>ログイン</h1>
     <form id="loginForm" action="qrcode.html">
-        <label for="username">ユーザー名:</label>
-        <input type="text" id="username" name="username"><br><br>
+        <!--<label for="username">ユーザー名:</label>-->
+        <input type="text" id="id" name="id"><br><br>
         <!--<label for="password">パスワード:</label>
         <input type="password" id="password" name="password"><br><br>-->
-        <button type="submit" onclick="login()">ログイン</button>
+        <button type="submit">ログイン</button>
     </form>
 
     <script>
         // ログイン関数
-        function login() {
+        /*function login() {
             //var username = document.getElementById('username').value;
             //var password = document.getElementById('password').value;
 
@@ -34,13 +34,13 @@
                 }
             }, 5 * 60 * 1000);}*/
                     // クッキーに現在の時間を保存する関数
-            function setCookie() {
+            /*function setCookie() {
                 var username = document.getElementById('username').value;
                 var now = new Date();
                 var expiration = new Date(now.getTime() + 5 * 60 * 1000); // 5分後の時間
                 document.cookie = "NAME=username; expires=expiration; secure";
             }
-        }
+        }*/
     </script>
 </body>
 </html>
