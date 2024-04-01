@@ -270,8 +270,8 @@
             },
             ResetSetting: function () {
                 if (confirm(
-                    "データを初期化しますけどよろしいでっか?" + "\r\n\r\n" +
-                    "もしあれやったらEXPORTできますさかいにご利用なさってください。")) {
+                    "データを初期化しますけどよろしいですか?" + "\r\n\r\n" +
+                    "EXPORTでデータを保存できます。よかったら使ってください。")) {
                     localStorage.removeItem(this.saveLSkey);
                     location.reload();
                 }
@@ -290,7 +290,7 @@
                 return;
             }
 
-            fetch(`http://example.com/class/${className}.json`)
+            fetch(`./class/${className}.json`)
                 .then(response => response.json())
                 .then(data => {
                     this.employeeData = data;
