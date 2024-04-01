@@ -17,8 +17,24 @@
         var urlParams = new URLSearchParams(window.location.search);
         var username = urlParams.get('username');
 
-        // ユーザー名を使用してQRコードを生成
-        generateQRCode(username);
+        window.addEventListener('load',function() {  
+              // 入力欄の要素を取得
+              //var inp01 = document.getElementById('INP01');
+              // ボタンの要素を取得
+              //var bnt01 = document.getElementById('CRTQR');
+              // ボタン クリック時の処理を追加
+              window.onload = function(){
+                // QRコードの出力先をクリア
+                document.getElementById('QR').textContent = '';
+                // QRコード作成
+                var qrcode = new QRCode('QR', {
+                    text:  username.value,
+                    width: 128,
+                    height: 128,
+                    correctLevel : QRCode.CorrectLevel.H
+                });  
+              }      
+        });
         setTimeout(function() {
                 var lastAccess = getCookie("lastAccess");
                 if (lastAccess !== null) {
@@ -30,15 +46,6 @@
                     }
                 }
             }, 5 * 60 * 1000);
-        function generateQRCode(text) {
-            // QRコードを生成する関数
-            var qrcode = new QRCode('QR', {
-              text:  text.value,
-              width: 128,
-              height: 128,
-              correctLevel : QRCode.CorrectLevel.H
-            });  
-        }
         // クッキーの値を取得する関数
         function getCookie(name) {
             var cookies = document.cookie.split(';');
