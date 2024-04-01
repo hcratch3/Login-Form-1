@@ -140,48 +140,38 @@
     <script src="./qrreader/vue.js"></script>
     <script src="./qrreader/sha256.min.js"></script>
     <script>
-    //localStorage.removeItem("EMPLOYEE_DATA");
     let vueApp = new Vue({
         el: '#app',
         data: {
             isMenuOpen: false,
-            pageMode: "Camera", // "Camera" , "DataCheck" 
+            pageMode: "Camera",
             saveLSkey: "EMPLOYEE_DATA",
-
             employeeData: [],
-
             cameraData: {
                 audio: false,
                 video: {
                     width: 700,
                     height: 700,
-                    facingMode: "user" // フロントカメラを利用する
+                    facingMode: "user"
                 }
             },
-
             video: null,
             canvas: null,
             ctx: null,
-
             topMargin: 0,
             isQRget: false,
-
             employeeName: "",
             employeeId: "",
             attendanceData: "",
         },
         methods: {
-
             setTopMargin: function () {
-                // data にリサイズ後のウィンドウ幅を代入
                 if (window.innerWidth > 768) {
-                    this.topMargin = ((window.innerWidth) * -0.25) + ((window.innerHeight) * 0.1)
-
+                    this.topMargin = ((window.innerWidth) * -0.25) + ((window.innerHeight) * 0.1);
                 } else {
                     this.topMargin = (window.innerWidth) * -0.7;
                 }
             },
-
             cameraRun: function () {
                 let video = this.video;
                 navigator.mediaDevices.getUserMedia(this.cameraData)
@@ -189,7 +179,6 @@
                         video.srcObject = stream;
                         video.onloadedmetadata = (e) => {
                             video.play();
-                            // QRコードのチェック開始
                             this.checkPicture();
                         };
                     })
@@ -197,59 +186,41 @@
                         console.log(err.name + ": " + err.message);
                     });
             },
-
             checkPicture: function () {
                 let ctx = this.ctx;
                 let video = this.video;
                 let canvas = this.canvas;
-                // カメラの映像をCanvasに複写
                 ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-                // QRコードの読み取り
                 let imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
                 let code = jsQR(imageData.data, canvas.width, canvas.height);
-
-                //----------------------
-                // 存在する場合
-                //----------------------
                 if (code) {
                     setTimeout(() => {
                         this.isQRget = true;
-                        //キーの決め打ちで見やすいが、あんまりよろしくない！
                         this.employeeData.forEach(el => {
                             let base64id = btoa(unescape(encodeURIComponent(el["id"])));
-                            // if (el["id"] == code.data) {
                             if (el["id"] == code.data || base64id == code.data) {
                                 video.pause();
                                 this.employeeId = el["id"];
                                 this.employeeName = el["name"];
                                 this.attendanceData = moment().format('YYYY/MM/DD HH:mm:ss dddd');
-
                                 el["attendance"] = "出席済み";
                                 el["date"] = moment().format('YYYY/MM/DD HH:mm:ss dddd');
-                                localStorage.setItem(this.saveLSkey, JSON.stringify(this
-                                    .employeeData));
+                                localStorage.setItem(this.saveLSkey, JSON.stringify(this.employeeData));
                                 console.log(this.employeeData);
                             }
                         })
                     }, 300);
                 }
-                //----------------------
-                // 存在しない場合
-                //----------------------
                 else {
-                    // 0.3秒後にもう一度チェックする
                     setTimeout(() => {
                         this.checkPicture();
                     }, 300);
                 }
             },
-
             cameraRestart: function () {
                 this.cameraRun();
-                //this.video.play();
                 this.isQRget = false;
             },
-
             DownloadCsv: function () {
                 let csv = '\ufeff';
                 Object.keys(this.employeeData[0]).forEach(function (key) {
@@ -275,44 +246,28 @@
                 link.download = 'EXPORT_DATA.csv';
                 link.click();
             },
-
             ImportCsv: function (csvEv) {
                 let file = csvEv.target.files[0];
                 let reader = new FileReader();
                 let vueThis = this;
-
-                //読み込み完了後に実行される
                 reader.onload = function (csvEv) {
                     let res = csvEv.target.result;
-                    let splitData = res.split('\n'); // 1行ごとに分割する
-
+                    let splitData = res.split('\n');
                     let jsonArray = [];
-                    // 1行目から「項目名」の配列を生成する
                     let items = splitData[0].split(',');
-
-                    // CSVデータの配列の各行をループ処理する
-                    //// 配列の先頭要素(行)は項目名のため処理対象外
-                    //// 配列の最終要素(行)は空のため処理対象外
                     for (let i = 1; i < splitData.length - 1; i++) {
                         let a_line = new Object();
-                        // カンマで区切られた各データに分割する
                         let splitDataD = splitData[i].split(',');
-                        //// 各データをループ処理する
                         for (let j = 0; j < items.length; j++) {
-                            // 要素名：items[j]
-                            // データ：splitDataD[j]
                             a_line[items[j]] = splitDataD[j];
                         }
                         jsonArray.push(a_line);
                     }
-
                     vueThis.employeeData = jsonArray;
-                    console.log(vueThis.employeeData);
                     localStorage.setItem(vueThis.saveLSkey, JSON.stringify(vueThis.employeeData));
                 }
                 reader.readAsText(file, "Shift_JIS");
             },
-
             ResetSetting: function () {
                 if (confirm(
                     "データを初期化しますけどよろしいでっか?" + "\r\n\r\n" +
@@ -322,13 +277,11 @@
                 }
             },
         },
-
         mounted: function () {
             this.video = document.querySelector("#camera");
             this.canvas = document.querySelector("#picture");
             this.ctx = this.canvas.getContext("2d");
 
-            // URLからクエリパラメータを取得してクラス名を抽出
             const urlParams = new URLSearchParams(window.location.search);
             const className = urlParams.get('class');
 
@@ -337,10 +290,10 @@
                 return;
             }
 
-            // サーバーからクラス名.jsonを取得
-            axios.get(`http://example.com/class/${className}.json`)
-                .then(response => {
-                    this.employeeData = response.data;
+            fetch(`http://example.com/class/${className}.json`)
+                .then(response => response.json())
+                .then(data => {
+                    this.employeeData = data;
                 })
                 .catch(error => {
                     console.error('Error fetching class roster:', error);
@@ -350,7 +303,6 @@
             this.setTopMargin();
             window.addEventListener('resize', this.setTopMargin, false);
         },
-
         watch: {
             pageMode: function () {
                 if (this.pageMode == "Camera") {
@@ -362,14 +314,11 @@
                 }
             },
         },
-
         beforeDestroy: function () {
-            // インスタンスを破棄する前に、イベントリスナから削除
             window.removeEventListener('resize', this.setTopMargin, false);
         }
     })
 </script>
-
 
     <style type="text/css">
         html,
