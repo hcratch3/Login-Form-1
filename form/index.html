@@ -105,17 +105,19 @@ Resources
         <input type="text" class="login-field" value="" placeholder="Class" id="login-class">
         <label class="login-field-icon fui-lock" for="login-class"></label>
         </div>
-
+　　　　　<div id="mcaptcha__widget-container"></div>
         <a class="btn btn-primary btn-large btn-block" href="#">login</a>
       </div>
-      <label data-mcaptcha_url="w47uZsTkGcxC4kJoFuZOvg43avojhB2h" for="mcaptcha__token" id="mcaptcha__token-label">
-   　　　　mCaptcha authorization token.
-   　　　　<a href="https://mcaptcha.org/docs/user-manual/how-to-mcaptcha-without-js/" >Instructions</a>
-  　　　　　<input type="text" name="mcaptcha__token" id="mcaptcha__token" />
-　　　　</label>
-　　　　<div id="mcaptcha__widget-container"></div>
-　　　　<script src="https://unpkg.com/@mcaptcha/vanilla-glue@0.1.0-rc2/dist/index.js"></script>
     </div>
   </div>
+  <!--<script src="../dist/index.js"></script>-->
+  <script charset="utf-8">
+    let config = {
+      widgetLink: new URL(
+        "http://localhost:7000/widget/?sitekey=JiL62F7l9hFjhoPIqeMOpMDFuQ1BIz7l"
+      ),
+    };
+    new mcaptchaGlue.default(config);
+  </script>
 </body>
 </html>
